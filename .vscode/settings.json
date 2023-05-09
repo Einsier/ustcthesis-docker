@@ -1,4 +1,10 @@
 {
+    // use latex on docker, set to false if you have latex installed locally
+    "latex-workshop.docker.enabled": true,
+    // official docker image https://hub.docker.com/r/texlive/texlive only for amd64
+    // use https://hub.docker.com/r/zydou/texlive for both amd64 and arm64
+    "latex-workshop.docker.image.latex": "zydou/texlive:latest",
+
     "latex-workshop.intellisense.unimathsymbols.enabled": true,
     "latex-workshop.latex.recipes": [
         {

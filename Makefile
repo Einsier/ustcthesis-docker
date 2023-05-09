@@ -3,6 +3,10 @@ NAME = ustcthesis
 CLSFILES = $(NAME).cls
 BSTFILES = $(NAME)-numerical.bst $(NAME)-authoryear.bst $(NAME)-bachelor.bst
 
+# official docker image is https://hub.docker.com/r/texlive/texlive but only for amd64
+# use https://hub.docker.com/r/zydou/texlive for both amd64 and arm64
+DOCKER_IMAGE = zydou/texlive:latest
+DOCKER_BASE_CMD = docker run --rm -it -v $(shell pwd):/workdir -w /workdir $(DOCKER_IMAGE)
 SHELL = bash
 LATEXMK = latexmk -xelatex
 VERSION = $(shell cat $(NAME).cls | egrep -o "\\ustcthesisversion{v[0-9.]+" \
@@ -10,6 +14,18 @@ VERSION = $(shell cat $(NAME).cls | egrep -o "\\ustcthesisversion{v[0-9.]+" \
 TEXMF = $(shell kpsewhich --var-value TEXMFHOME)
 
 .PHONY : main cls doc test save clean all install distclean zip FORCE_MAKE
+
+docker-main :
+	$(DOCKER_BASE_CMD) make main
+
+docker-doc :
+	$(DOCKER_BASE_CMD) make doc
+
+docker-clean :
+	$(DOCKER_BASE_CMD) make clean
+
+docker-cleanall :
+	$(DOCKER_BASE_CMD) make cleanall
 
 main : $(MAIN).pdf
 
